@@ -6,6 +6,7 @@ import food_items from '../food';
 import { dataContext } from '../context/UserContext';
 import { RxCross2 } from "react-icons/rx";
 import Card2 from '../Component/Card2';
+import { useSelector } from 'react-redux';
 const Home = () => {
   let {cate,setcate,input,showCart,setShowCart}=useContext(dataContext)
 
@@ -17,6 +18,9 @@ const Home = () => {
     setcate(newList)
   }
   }
+ 
+   let items=useSelector(state=>state.cart)
+
   return (
     <div className='bg-slate-200 w-full min-h-screen'>
        <Nav/> 
@@ -51,7 +55,14 @@ const Home = () => {
       <RxCross2 className='w-[30px] h-[20px] text-green-400 text-[18px] font-semibold
        cursor-pointer hover:text-gray-600' onClick={()=>setShowCart(false)} />
      </header>
-     <Card2/>
+    
+    <div>
+      {items.map((item)=>(
+        <Card2 name={item.name} price={item.price} image={item.image}
+          id={item.id} qty={item.qty}
+        />
+      ))}
+    </div>
      </div>             
        
     </div>
