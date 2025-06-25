@@ -21,6 +21,11 @@ const Home = () => {
  
    let items=useSelector(state=>state.cart)
 
+   let subtotal=items.reduce((total,item)=>total+item.price,0)
+   let deliveryFee=20;
+   let taxes=subtotal*0.5/100;
+   let total = Math.floor (subtotal+deliveryFee+taxes)
+
   return (
     <div className='bg-slate-200 w-full min-h-screen'>
        <Nav/> 
@@ -55,17 +60,41 @@ const Home = () => {
       <RxCross2 className='w-[30px] h-[20px] text-green-400 text-[18px] font-semibold
        cursor-pointer hover:text-gray-600' onClick={()=>setShowCart(false)} />
      </header>
-    
-    <div>
+    <div className='w-full mt-9 flex flex-col gap-6'>
       {items.map((item)=>(
         <Card2 name={item.name} price={item.price} image={item.image}
           id={item.id} qty={item.qty}
         />
       ))}
     </div>
-     </div>             
-       
+
+      <div className='w-full border-t-2 border-b-2 border-gray-400 mt-7 flex
+       flex-col gap-2 p-8'>
+    <div className='w-full flex justify-between items-center'>
+      <span className='text-lg text-gray-600 font-semibold'>subtotal</span>
+      <span className='text-green-400 font-semibold text-md'>Rs {subtotal}/-</span>
     </div>
+
+    <div className='w-full flex justify-between items-center'>
+      <span className='text-lg text-gray-600 font-semibold'>Delivery Fee</span>
+      <span className='text-green-400 font-semibold text-md'>Rs {deliveryFee}/-</span>
+    </div>
+
+    <div className='w-full flex justify-between items-center'>
+      <span className='text-lg text-gray-600 font-semibold'>Taxes</span>
+      <span className='text-green-400 font-semibold text-md'>Rs {taxes}/-</span>
+    </div>
+        </div>
+
+         <div className='w-full flex justify-between items-center p-9'>
+      <span className='text-2x1 text-gray-600 font-semibold'>Total</span>
+      <span className='text-green-400 font-semibold text-2x1'>Rs {total}/-</span>
+    </div>
+    <button>Place Order</button>
+
+
+ </div>                
+   </div>
   )
 }
 
